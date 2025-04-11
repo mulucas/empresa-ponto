@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bater Ponto</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bater-ponto.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Bater Ponto</h1>
+        <p th:text="${'CPF: ' + cpf}"></p>
+
+        <div id="camera-container">
+            <video id="camera-stream" autoplay></video>
+        </div>
+
+        <button id="start-camera">Iniciar Câmera</button>
+        <button id="capture-point" disabled>Bater Ponto</button>
+        <div id="feedback"></div>
+        <button onclick="window.location.href='/menu-ponto?cpf=' + '[[${cpf}]]'">Voltar ao Menu</button>
+
+        <script>
+            const cameraStream = document.getElementById('camera-stream');
+            const startCameraButton = document.getElementById('start-camera');
+            const capturePointButton = document.getElementById('capture-point');
+            const feedbackDiv = document.getElementById('feedback');
+
+            let mediaStream;
+
+            startCameraButton.addEventListener('click', async () => {
+                try {
+                    mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                    cameraStream.srcObject = mediaStream;
+                    startCameraButton.disabled = true;
+                    capturePointButton.disabled = false;
+                    feedbackDiv.textContent = 'Câmera iniciada. Posicione-se e clique em "Bater Ponto".';
+                } catch (error) {
+                    console.error('Erro ao acessar a câmera:', error);
+                    feedbackDiv.textContent = 'Erro ao acessar a câmera.';
+                }
+            });
+
+            capturePointButton.addEventListener('click', async () => {
+                if (mediaStream) {
+                	const cpf = '[[${cpf}]]'; // Obtém o CPF do Thymeleaf como uma string JavaScript
+                    try {
+                        const response = await fetch('/registrar-ponto?cpf=' + cpf, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            // Se você fosse enviar a imagem, precisaria de mais lógica aqui
+                            // body: ...
+                        });
+                        const data = await response.text();
+                        feedbackDiv.textContent = data;
+                    } catch (error) {
+                        console.error('Erro ao registrar o ponto:', error);
+                        feedbackDiv.textContent = 'Erro ao registrar o ponto.';
+                    } finally {
+                        // Opcional: parar a câmera após bater o ponto
+                        mediaStream.getTracks().forEach(track => track.stop());
+                        cameraStream.srcObject = null;
+                        startCameraButton.disabled = false;
+                        capturePointButton.disabled = true;
+                    }
+                } else {
+                    feedbackDiv.textContent = 'A câmera não foi iniciada.';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>

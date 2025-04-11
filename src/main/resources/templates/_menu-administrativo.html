@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Menu Administrativo</title>
+    </head>
+<body>
+    <div th:fragment="menuAdmin" class="admin-menu-container">
+        <h2>Administrativo</h2>
+        <ul class="admin-menu">
+            <li><a th:href="@{/colaboradores/cadastro}">Cadastrar Colaborador</a></li>
+            <li><a th:href="@{/colaboradores/listar}">Listar Colaboradores</a></li>
+            <li><a th:href="@{/relatorios/pontos}">Visualizar Relatórios</a></li>
+            <li><a th:href="@{/ajustes/pontos}">Ajustar Pontos</a></li>
+            <li><a th:href="@{/menu-ponto}">Voltar</a></li>
+        </ul>
+    </div>
+</body>
+</html>

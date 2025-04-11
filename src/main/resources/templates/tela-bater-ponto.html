@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bater Ponto - Realtime</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/tela-bater-ponto.css}">    
+</head>
+<body>
+    <div class="container">
+        <h1>Bater Ponto</h1>
+        <p th:if="${cpf}">CPF: <span th:text="${cpf}"></span></p>
+        <p th:unless="${cpf}">CPF não disponível.</p>
+        <div class="datetime">
+            <div id="currentDate" class="date"></div>
+            <div id="currentTime" class="time"></div>
+        </div>
+        <div class="buttons">
+            <button class="button entrada" id="baterEntradaBtn">ENTRADA</button>
+            <button class="button saida" id="baterSaidaBtn">SAÍDA</button>
+        </div>
+        <br>
+      	<button class="button secondary" onclick="window.location.href='/menu-ponto'">Voltar ao Menu</button>
+
+        <script th:inline="javascript">
+            const currentDateElement = document.getElementById('currentDate');
+            const currentTimeElement = document.getElementById('currentTime');
+            const baterSaidaBtn = document.getElementById('baterSaidaBtn');
+
+            function updateDateTime() {
+                const now = new Date();
+                const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const optionsTime = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+                currentDateElement.textContent = now.toLocaleDateString('pt-BR', optionsDate);
+                currentTimeElement.textContent = now.toLocaleTimeString('pt-BR', optionsTime);
+            }
+
+            setInterval(updateDateTime, 1000); // Atualiza a cada segundo
+            updateDateTime(); // Carrega a data e hora inicial
+
+            const baterEntradaBtn = document.getElementById('baterEntradaBtn');
+
+            if (baterSaidaBtn) {
+                baterSaidaBtn.addEventListener('click', () => {
+                    // Aqui você chamaria a função para registrar a SAÍDA,
+                    // possivelmente abrindo a câmera e enviando os dados.
+                    console.log('Registrar SAÍDA para CPF:', cpf);
+                    window.location.href = `/registrar-ponto-saida?cpf=${cpf}`; // Redirecionamento temporário
+                });
+            }
+        </script>
+    </div>
+</body>
+</html>

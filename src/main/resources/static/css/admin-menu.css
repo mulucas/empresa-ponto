@@ -1,0 +1,50 @@
+.admin-menu-container {
+    background-color: #f9f9f9;
+    padding: 10px 20px;
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 15px;
+    text-align: center; /* Centraliza o título */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.admin-menu-container h2 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+    display: block; /* Ocupa a linha inteira para o text-align funcionar */
+}
+
+.admin-menu {
+    list-style: none;
+    padding: 0;
+    margin: 10px auto 0 auto; /* Centraliza o bloco da lista com margens automáticas */
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center; /* Centraliza os itens flex horizontalmente */
+    width: fit-content; /* Ajusta a largura ao conteúdo */
+}
+
+.admin-menu li {
+    margin-bottom: 0;
+}
+
+.admin-menu li a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: none;
+    font-size: 1em;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.admin-menu li a:hover {
+    background-color: #0056b3;
+}

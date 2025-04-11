@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saindo do Sistema</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/tela-sair.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Saindo do Sistema</h1>
+        <p>Aguarde enquanto finalizamos sua sessão...</p>
+        <div class="loading"></div>
+    </div>
+
+    <script>
+        setTimeout(function() {
+            window.location.href = "/"; // Substitua pelo URL da sua tela de login
+        }, 3000); // Redireciona após 3 segundos (3000 milissegundos)
+    </script>
+</body>
+</html>

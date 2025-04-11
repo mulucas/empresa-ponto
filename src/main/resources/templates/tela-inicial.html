@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Menu de Ponto</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/tela-inicial.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin-menu.css}">
+</head>
+<body>
+	<div th:if="${acessoAdmin}">
+        <div th:insert="~{_menu-administrativo :: menuAdmin}"></div>
+    </div>
+
+    <div class="container">
+        <h1>Menu de Ponto</h1>
+        <p th:text="${'CPF: ' + cpf}"></p>
+
+        <div class="options">
+            <button id="baterPontoBtn" th:data-cpf="${cpf}">Bater Ponto</button>
+            <button onclick="window.location.href='/historico-ponto'">Ver Histórico</button>
+            <button onclick="window.location.href='/justificar-ponto'">Justificar Ponto</button>
+            <button onclick="window.location.href='/configuracoes'">Configurações</button>
+            <button onclick="window.location.href='/sair'">Sair</button>
+        </div>
+    </div>
+    <script th:src="@{/js/tela-inicial.js}"></script>
+</body>
+</html>
