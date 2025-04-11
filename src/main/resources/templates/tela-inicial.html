@@ -15,7 +15,7 @@
         <p th:text="${'CPF: ' + cpf}"></p>
 
         <div class="options">
-            <button id="baterPontoBtn" th:data-cpf="${cpf}">Bater Ponto</button>
+            <button onclick="window.location.href='/registrar-ponto'">Registrar Ponto</button>
             <button onclick="window.location.href='/historico-ponto'">Ver Histórico</button>
             <button onclick="window.location.href='/justificar-ponto'">Justificar Ponto</button>
             <button onclick="window.location.href='/configuracoes'">Configurações</button>
