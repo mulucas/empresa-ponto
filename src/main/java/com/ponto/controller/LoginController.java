@@ -20,7 +20,7 @@ public class LoginController {
 
 	@GetMapping("/")
 	public String exibirFormularioCpf() {
-		return "login";
+		return "operacoes/login";
 	}
 
 	@PostMapping("/processar-cpf")
@@ -29,10 +29,10 @@ public class LoginController {
 			session.setAttribute("cpf", cpf);
 			model.addAttribute("cpf", cpf);
 			model.addAttribute("acessoAdmin", colaborador.getAcessoAdmin());
-			return "tela-inicial";
+			return "operacoes/tela-inicial";
 		}).orElseGet(() -> {
 			model.addAttribute("erro", "Colaborador não encontrado.");
-			return "login";
+			return "operacoes/login";
 		});
 	}
 

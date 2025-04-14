@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Adicionar Ponto</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/adicionar-ponto.css}">
+</head>
+<body>
+    <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
+
+    <div class="container">
+        <h1>Adicionar Ponto</h1>
+
+        <form th:action="@{/ponto/adicionar-ponto}" method="post">
+            <label for="cpfColaborador">CPF do Colaborador:</label>
+            <input type="text" id="cpfColaborador" name="cpfColaborador" required>
+
+            <label for="dataHora">Data e Hora:</label>
+            <input type="datetime-local" id="dataHora" name="dataHora" required>
+
+            <label for="tipoRegistro">Tipo de Registro:</label>
+            <select id="tipoRegistro" name="tipoRegistro" required>
+                <option value="ENTRADA">ENTRADA</option>
+                <option value="SAIDA">SAÍDA</option>
+            </select>
+
+            <button type="submit">Adicionar</button>
+        </form>
+    </div>
+</body>
+</html>

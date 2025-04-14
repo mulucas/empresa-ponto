@@ -3,8 +3,8 @@
 <head>
     <title>Lista de Colaboradores</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/listar-colaboradores.css}">
-	<script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/colaborador/listar-colaboradores.css}">
+    <script>
         function confirmarExclusao(colaboradorId) {
             if (confirm("Tem certeza que deseja excluir este colaborador?")) {
                 window.location.href = "/colaboradores/excluir/" + colaboradorId;
@@ -13,7 +13,7 @@
     </script>
 </head>
 <body>
-    <div th:insert="~{/_menu-administrativo :: menuAdmin}"></div>
+    <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
 
     <div class="container">
         <h1>Lista de Colaboradores</h1>
@@ -25,7 +25,7 @@
                     <th>Nome</th>
                     <th>Email</th>
                     <th>Ativo</th>
-                    <th>Acesso Admin</th>
+                    <th>Departamento</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -36,11 +36,12 @@
                     <td th:text="${colaborador.nome}"></td>
                     <td th:text="${colaborador.email}"></td>
                     <td th:text="${colaborador.ativo ? 'Sim' : 'Não'}"></td>
-                    <td th:text="${colaborador.acessoAdmin ? 'Sim' : 'Não'}"></td>
+                    <td th:text="${colaborador.departamento}"></td>
                     <td class="action-links">
                         <a href="#" class="action-icon delete-icon" title="Excluir"
-                           th:onclick="'javascript:confirmarExclusao(' + ${colaborador.id} + ');'">X</a>
+                            th:onclick="'javascript:confirmarExclusao(' + ${colaborador.id} + ');'">X</a>
                         <a th:href="@{/colaboradores/editar/{id}(id=${colaborador.id})}" class="action-icon edit-icon" title="Editar">&#9998;</a>
+                        <a th:href="@{'/ponto/ajustar-pontos/' + ${colaborador.cpf}}" class="ajustar-pontos-btn">Ajustar Pontos</a>
                     </td>
                 </tr>
             </tbody>

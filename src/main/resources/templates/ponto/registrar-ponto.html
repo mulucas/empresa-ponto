@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bater Ponto</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ponto/registrar-ponto.css}">
+</head>
+<body>
+    <div class="container">
+    <div id="confirmacao" th:if="${mensagem != null}" th:text="${mensagem}" th:style="'color: ' + (${mensagem.contains('sucesso') ? 'green' : 'red'})"></div>
+        <h1>Bater Ponto</h1>
+        <p class="date"></p>
+        <p class="time"><span id="liveTime"></span></p>
+        <form action="/registrar-ponto" method="post">
+            <input type="hidden" name="cpfColaborador" id="cpfColaborador" th:value="${cpf}">
+            <input type="hidden" name="dataHora" id="dataHora">
+            <div class="buttons">
+                <button type="submit" name="tipoRegistro" value="ENTRADA" class="entrada">ENTRADA</button>
+                <button type="submit" name="tipoRegistro" value="SAIDA" class="saida">SAÍDA</button>
+            </div>
+            
+        </form>
+        <a th:href="@{/menu-ponto}" class="voltar">Voltar ao Menu</a>
+    </div>
+    <script th:src="@{/js/registrar-ponto.js}"></script>
+</body>
+</html>

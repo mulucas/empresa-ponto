@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Histórico de Ponto</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ponto/historico-ponto.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Histórico de Ponto</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Tipo de Registro</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="registro : ${registros}">
+                    <td th:text="${#temporals.format(registro.dataHora, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${#temporals.format(registro.dataHora, 'HH:mm:ss')}"></td>
+                    <td th:text="${registro.tipoRegistro}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/menu-ponto}" class="voltar">Voltar ao Menu</a>
+    </div>
+    <script th:src="@{/js/historico-ponto.js}"></script>
+</body>
+</html>

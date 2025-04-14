@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ajustar Ponto</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ponto/ajustar-ponto.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/admin-menu.css}">
+</head>
+<body>
+    <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
+
+    <div class="container">
+        <h1>Ajustar Ponto</h1>
+
+        <form th:action="@{'/ponto/ajustar-ponto/' + ${registroPonto.id}}" method="post">
+            <label for="dataHora">Data e Hora:</label>
+            <input type="datetime-local" id="dataHora" name="dataHora" th:value="${#temporals.format(registroPonto.dataHora, 'yyyy-MM-dd''T''HH:mm:ss')}" required>
+
+            <label for="tipoRegistro">Tipo de Registro:</label>
+            <select id="tipoRegistro" name="tipoRegistro" required>
+                <option value="ENTRADA" th:selected="${registroPonto.tipoRegistro == T(com.ponto.enums.TipoRegistro).ENTRADA}">ENTRADA</option>
+                <option value="SAIDA" th:selected="${registroPonto.tipoRegistro == T(com.ponto.enums.TipoRegistro).SAIDA}">SAÍDA</option>
+            </select>
+
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -33,12 +33,12 @@ public class InicialController {
 		return colaboradorRepository.findByCpf(cpf).map(colaborador -> {
 			model.addAttribute("cpf", cpf);
 			model.addAttribute("acessoAdmin", colaborador.getAcessoAdmin());
-			return "tela-inicial";
+			return "operacoes/tela-inicial";
 		}).orElse("redirect:/");
 	}
 
 	@GetMapping("/sair")
 	public String sair() {
-		return "tela-sair";
+		return "operacoes/tela-sair";
 	}
 }

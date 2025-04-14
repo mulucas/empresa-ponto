@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Histórico de Pontos</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/historico-pontos.css}">
+</head>
+<body>
+    <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
+
+    <div class="container">
+        <h1>Histórico de Pontos</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>CPF do Colaborador</th>
+                    <th>Data e Hora</th>
+                    <th>Tipo de Registro</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="registro : ${registros}">
+                    <td th:text="${registro.id}"></td>
+                    <td th:text="${registro.cpfColaborador}"></td>
+                    <td th:text="${#temporals.format(registro.dataHora, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                    <td th:text="${registro.tipoRegistro}"></td>
+                    <td>
+                        <a th:href="@{'/ponto/ajustar-ponto/' + ${registro.id}}">Ajustar</a>
+                        <a th:href="@{'/ponto/remover-ponto/' + ${registro.id}}">Remover</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
