@@ -9,12 +9,18 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.ponto.enums.TipoRegistro;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RegistroPonto {
 
     @Id
@@ -37,53 +43,5 @@ public class RegistroPonto {
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime dataCadastro;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getCpfColaborador() {
-		return cpfColaborador;
-	}
-
-	public void setCpfColaborador(String cpfColaborador) {
-		this.cpfColaborador = cpfColaborador;
-	}
-
-	public LocalDateTime getDataHora() {
-		return dataHora;
-	}
-
-	public void setDataHora(LocalDateTime dataHora) {
-		this.dataHora = dataHora;
-	}
-
-	public TipoRegistro getTipoRegistro() {
-		return tipoRegistro;
-	}
-
-	public void setTipoRegistro(TipoRegistro tipoRegistro) {
-		this.tipoRegistro = tipoRegistro;
-	}
-
-	public String getObservacao() {
-		return observacao;
-	}
-
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
-	}
-
-	public LocalDateTime getDataCadastro() {
-		return dataCadastro;
-	}
-
-	public void setDataCadastro(LocalDateTime dataCadastro) {
-		this.dataCadastro = dataCadastro;
-	}
 
 }

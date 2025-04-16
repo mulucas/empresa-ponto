@@ -20,11 +20,11 @@ public class HistoricoPontoController {
     public String exibirHistoricoPonto(Model model, HttpSession session) {
         String cpf = (String) session.getAttribute("cpf");
         if (cpf == null) {
-            return "redirect:/login"; // Redireciona para o login se o CPF não estiver na sessão
+            return "redirect:/"; // Redireciona para o login se o CPF não estiver na sessão
         }
 
         List<RegistroPonto> registros = registroPontoRepository.findByCpfColaborador(cpf);
         model.addAttribute("registros", registros);
-        return "historico-ponto";
+        return "ponto/historico-ponto";
     }
 }

@@ -4,6 +4,7 @@ import com.ponto.enums.TipoRegistro;
 import com.ponto.model.AjustePonto;
 import com.ponto.model.Colaborador;
 import com.ponto.model.RegistroPonto;
+import com.ponto.repository.AjustePontoRepository;
 import com.ponto.repository.ColaboradorRepository;
 import com.ponto.repository.RegistroPontoRepository;
 import jakarta.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class RegistroPontoController {
@@ -25,14 +27,17 @@ public class RegistroPontoController {
     @Autowired
     private ColaboradorRepository colaboradorRepository;
 
+    @Autowired
+    private AjustePontoRepository ajustePontoRepository;
+
     @GetMapping("/registrar-ponto")
     public String exibirPaginaRegistroPonto(Model model, HttpSession session) {
         String cpf = (String) session.getAttribute("cpf");
         if (cpf == null) {
-            return "redirect:/login";
+            return "redirect:/";
         }
         model.addAttribute("cpf", cpf);
-        return "registrar-ponto";
+        return "ponto/registrar-ponto";
     }
 
     @PostMapping("/registrar-ponto")
@@ -75,54 +80,71 @@ public class RegistroPontoController {
             return "redirect:/ponto/historico-pontos";
         }
 
-        LocalDateTime dataHora = LocalDateTime.parse(dataHoraString, DateTimeFormatter.ISO_DATE_TIME);
+        LocalDateTime dataHoraNova = LocalDateTime.parse(dataHoraString, DateTimeFormatter.ISO_DATE_TIME);
 
         String cpfAdmin = (String) session.getAttribute("cpf");
-        //Colaborador colaboradorAdmin = colaboradorRepository.findByCpf(cpfAdmin);
+        Colaborador colaboradorAdmin = colaboradorRepository.findByCpf(cpfAdmin).orElse(null);
 
         AjustePonto ajustePonto = new AjustePonto();
         ajustePonto.setRegistroPontoId(id);
         ajustePonto.setDataHoraAnterior(registroPonto.getDataHora());
-        ajustePonto.setDataHoraNova(dataHora);
+        ajustePonto.setDataHoraNova(dataHoraNova);
         ajustePonto.setTipoRegistroAnterior(registroPonto.getTipoRegistro().name());
         ajustePonto.setTipoRegistroNovo(tipoRegistro.name());
-        //ajustePonto.setColaboradorAdmin(colaboradorAdmin);
+        ajustePonto.setColaboradorAdmin(colaboradorAdmin);
         ajustePonto.setDataHoraAjuste(LocalDateTime.now());
-        //ajustePontoRepository.save(ajustePonto);
+        ajustePontoRepository.save(ajustePonto);
 
-        registroPonto.setDataHora(dataHora);
+        registroPonto.setDataHora(dataHoraNova);
         registroPonto.setTipoRegistro(tipoRegistro);
         registroPontoRepository.save(registroPonto);
 
-        // Armazenar o CPF na sessão
-        session.setAttribute("cpfColaboradorAjustado", registroPonto.getCpfColaborador());
-
-        // Redirecionar para a URL genérica
-        return "redirect:/ponto/ajustar-pontos";
-    }
-
-    // Método para exibir a página de listagem de registros de ponto
-    @GetMapping("/ponto/ajustar-pontos")
-    public String listarRegistrosPonto(HttpSession session, Model model) {
-
-        // Recuperar o CPF da sessão
-        String cpfColaborador = (String) session.getAttribute("cpfColaboradorAjustado");
-
-        // Remover o CPF da sessão para evitar reutilização indevida
-        session.removeAttribute("cpfColaboradorAjustado");
-
-        if (cpfColaborador == null) {
-            // Lógica para lidar com o caso em que o CPF não está na sessão
-            // Por exemplo, redirecionar para uma página de erro ou exibir uma mensagem
+        Colaborador colaborador = colaboradorRepository.findByCpf(registroPonto.getCpfColaborador()).orElse(null);
+        if (colaborador != null) {
+            return "redirect:/ponto/ajustar-pontos/colaborador/" + colaborador.getId();
+        } else {
             return "redirect:/ponto/historico-pontos";
         }
+    }
 
-        // Lógica para buscar os registros de ponto do colaborador com o CPF recuperado
-        List<RegistroPonto> registrosPonto = registroPontoRepository.findByCpfColaborador(cpfColaborador);
+    @GetMapping("/ponto/ajustes/colaborador/{idColaborador}")
+    public String listarAjustesDePonto(@PathVariable Long idColaborador, Model model) {
+        Colaborador colaborador = colaboradorRepository.findById(idColaborador).orElse(null);
+        if (colaborador == null) {
+            return "redirect:/ponto/historico-pontos";
+        }
+        List<AjustePonto> ajustes = ajustePontoRepository.findByRegistroPontoIdIn(
+                registroPontoRepository.findByCpfColaborador(colaborador.getCpf()).stream()
+                        .map(RegistroPonto::getId)
+                        .toList()
+        );
+        model.addAttribute("ajustes", ajustes);
+        model.addAttribute("colaborador", colaborador);
+        return "ponto/ajustes-ponto";
+    }
 
-        model.addAttribute("registrosPonto", registrosPonto);
-        model.addAttribute("cpfColaborador", cpfColaborador);
+    // Método para exibir a página de listagem de registros de ponto (usado para redirecionamento)
+    @GetMapping("/ponto/ajustar-pontos")
+    public String listarRegistrosPontoRedirecionamento(HttpSession session) {
+        Long colaboradorIdAjustado = (Long) session.getAttribute("colaboradorIdAjustado");
+        if (colaboradorIdAjustado != null) {
+            return "redirect:/ponto/ajustar-pontos/colaborador/" + colaboradorIdAjustado;
+        }
+        return "redirect:/ponto/historico-pontos";
+    }
 
+    @GetMapping("/ponto/ajustar-pontos/colaborador/{idColaborador}")
+    public String exibirFormularioAjustePontos(@PathVariable Long idColaborador, Model model, HttpSession session) {
+        Colaborador colaborador = colaboradorRepository.findById(idColaborador).orElse(null);
+        if (colaborador == null) {
+            return "redirect:/ponto/historico-pontos";
+        }
+        List<RegistroPonto> registros = registroPontoRepository.findByCpfColaborador(colaborador.getCpf());
+        model.addAttribute("registros", registros);
+        model.addAttribute("cpf", colaborador.getCpf());
+        model.addAttribute("idColaborador", idColaborador);
+
+        session.setAttribute("colaboradorIdAjustado", idColaborador);
         return "ponto/ajustar-pontos";
     }
 
@@ -143,12 +165,26 @@ public class RegistroPontoController {
         registroPonto.setTipoRegistro(tipoRegistro);
         registroPontoRepository.save(registroPonto);
 
-        return "redirect:/ponto/historico-pontos";
+        Colaborador colaborador = colaboradorRepository.findByCpf(cpfColaborador).orElse(null);
+        if (colaborador != null) {
+            return "redirect:/ponto/ajustar-pontos/colaborador/" + colaborador.getId();
+        } else {
+            return "redirect:/ponto/historico-pontos";
+        }
     }
 
     @GetMapping("/ponto/remover-ponto/{id}")
     public String removerPonto(@PathVariable Long id) {
-        registroPontoRepository.deleteById(id);
+        RegistroPonto registroPonto = registroPontoRepository.findById(id).orElse(null);
+        if (registroPonto != null) {
+            Colaborador colaborador = colaboradorRepository.findByCpf(registroPonto.getCpfColaborador()).orElse(null);
+            registroPontoRepository.deleteById(id);
+            if (colaborador != null) {
+                return "redirect:/ponto/ajustar-pontos/colaborador/" + colaborador.getId();
+            } else {
+                return "redirect:/ponto/historico-pontos";
+            }
+        }
         return "redirect:/ponto/historico-pontos";
     }
 
@@ -157,13 +193,5 @@ public class RegistroPontoController {
         List<RegistroPonto> registros = registroPontoRepository.findAll();
         model.addAttribute("registros", registros);
         return "ponto/historico-pontos";
-    }
-
-    @GetMapping("/ponto/ajustar-pontos/{cpf}")
-    public String exibirFormularioAjustePontos(@PathVariable String cpf, Model model) {
-        List<RegistroPonto> registros = registroPontoRepository.findByCpfColaborador(cpf);
-        model.addAttribute("registros", registros);
-        model.addAttribute("cpf", cpf);
-        return "ponto/ajustar-pontos";
     }
 }

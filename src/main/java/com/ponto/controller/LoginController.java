@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ponto.model.Colaborador;
 import com.ponto.repository.ColaboradorRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -25,15 +24,19 @@ public class LoginController {
 
 	@PostMapping("/processar-cpf")
 	public String processarCpf(@RequestParam("cpf") String cpf, Model model, HttpSession session) {
-		return colaboradorRepository.findByCpf(cpf).map(colaborador -> {
-			session.setAttribute("cpf", cpf);
-			model.addAttribute("cpf", cpf);
-			model.addAttribute("acessoAdmin", colaborador.getAcessoAdmin());
-			return "operacoes/tela-inicial";
-		}).orElseGet(() -> {
-			model.addAttribute("erro", "Colaborador não encontrado.");
-			return "operacoes/login";
-		});
+
+		String cpfSemPontuacao = cpf.replaceAll("[^\\d]", "");
+
+	    return colaboradorRepository.findByCpf(cpfSemPontuacao).map(colaborador -> {
+	        session.setAttribute("cpf", cpfSemPontuacao);
+	        model.addAttribute("cpf", cpfSemPontuacao);
+	        model.addAttribute("acessoAdmin", colaborador.getAcessoAdmin());
+	        return "operacoes/tela-inicial";
+	    }).orElseGet(() -> {
+	        model.addAttribute("erro", "Colaborador não encontrado.");
+	        System.out.println(cpfSemPontuacao);
+	        return "operacoes/login";
+	    });
 	}
 
 }

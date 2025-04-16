@@ -13,7 +13,9 @@
     </script>
 </head>
 <body>
-    <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
+    <div th:if="${acessoAdmin}">
+        <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
+    </div>
 
     <div class="container">
         <h1>Lista de Colaboradores</h1>
@@ -39,9 +41,9 @@
                     <td th:text="${colaborador.departamento}"></td>
                     <td class="action-links">
                         <a href="#" class="action-icon delete-icon" title="Excluir"
-                            th:onclick="'javascript:confirmarExclusao(' + ${colaborador.id} + ');'">X</a>
-                        <a th:href="@{/colaboradores/editar/{id}(id=${colaborador.id})}" class="action-icon edit-icon" title="Editar">&#9998;</a>
-                        <a th:href="@{'/ponto/ajustar-pontos/' + ${colaborador.cpf}}" class="ajustar-pontos-btn">Ajustar Pontos</a>
+                            th:onclick="'javascript:confirmarExclusao(' + ${colaborador.id} + ');'">Excluir</a>
+                        <a th:href="@{/colaboradores/editar/{id}(id=${colaborador.id})}" class="action-icon edit-icon" title="Editar">Editar</a>
+                        <a th:href="@{'/ponto/ajustar-pontos/colaborador/' + ${colaborador.id}}" class="action-icon" title="Visualizar" >Visualizar Pontos</a>
                     </td>
                 </tr>
             </tbody>

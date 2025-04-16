@@ -2,36 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Ajustar Pontos</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/ponto/ajustar-pontos.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin/admin-menu.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ponto/ajustar-pontos.css}">
 </head>
 <body>
      <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
 
     <div class="container">
-        <h1>Ajustar Pontos</h1>
-
-        <h2>Registros de Ponto para CPF: <span th:text="${cpf}"></span></h2>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Data e Hora</th>
-                    <th>Tipo de Registro</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="registro : ${registros}">
-                    <td th:text="${#temporals.format(registro.dataHora, 'dd/MM/yyyy HH:mm:ss')}"></td>
-                    <td th:text="${registro.tipoRegistro}"></td>
-                    <td>
-                        <a th:href="@{'/ponto/ajustar-ponto/' + ${registro.id}}">Ajustar</a>
-                        <a th:href="@{'/ponto/remover-ponto/' + ${registro.id}}">Remover</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+	    <h1>Ajustar Pontos</h1>
+	
+	    <h2>Registros de Ponto para CPF: <span th:text="${cpf}"></span></h2>
+	
+	    <table>
+	        <thead>
+	            <tr>
+	                <th>Data e Hora</th>
+	                <th>Tipo de Registro</th>
+	                <th>Ações</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr th:each="registro : ${registros}">
+	                <td th:text="${#temporals.format(registro.dataHora, 'dd/MM/yyyy HH:mm:ss')}"></td>
+	                <td th:text="${registro.tipoRegistro}"></td>
+	                <td>
+	                    <a th:href="@{'/ponto/ajustar-ponto/' + ${registro.id}}">Ajustar</a>
+	                    <a th:href="@{'/ponto/remover-ponto/' + ${registro.id}}">Remover</a>
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+	
+	    <div class="button-container">
+	        <a th:href="@{'/ponto/ajustes/colaborador/' + ${idColaborador}}" class="history-button">Histórico de Ajustes</a>
+	    </div>
+	</div>
 </body>
 </html>

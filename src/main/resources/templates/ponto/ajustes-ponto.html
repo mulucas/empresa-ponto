@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Histórico de Ajustes de Ponto</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/admin-menu.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/ponto/ajustes-ponto.css}">
+</head>
+<body>
+	<div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
+	
+	<div class="container">
+	    <h1>Histórico de Ajustes de Ponto</h1>
+	
+	    <h2 th:text="'Colaborador: ' + ${colaborador.nome} + ' (CPF: ' + ${colaborador.cpf} + ')'"></h2>
+	
+	    <table>
+	        <thead>
+	        <tr>
+	            <th>Data/Hora Anterior</th>
+	            <th>Tipo Anterior</th>
+	            <th>Data/Hora Nova</th>
+	            <th>Tipo Novo</th>
+	            <th>Admin</th>
+	            <th>Data/Hora Ajuste</th>
+	        </tr>
+	        </thead>
+	        <tbody>
+	        <tr th:each="ajuste : ${ajustes}">
+	            <td th:text="${#temporals.format(ajuste.dataHoraAnterior, 'dd/MM/yyyy HH:mm:ss')}"></td>
+	            <td th:text="${ajuste.tipoRegistroAnterior}"></td>
+	            <td th:text="${#temporals.format(ajuste.dataHoraNova, 'dd/MM/yyyy HH:mm:ss')}"></td>
+	            <td th:text="${ajuste.tipoRegistroNovo}"></td>
+	            <td th:text="${ajuste.colaboradorAdmin != null ? ajuste.colaboradorAdmin.nome : 'Sistema'}"></td>
+	            <td th:text="${#temporals.format(ajuste.dataHoraAjuste, 'dd/MM/yyyy HH:mm:ss')}"></td>
+	        </tr>
+	        </tbody>
+	    </table>
+	
+	    <div class="button-container">
+	        <a th:href="@{'/ponto/ajustar-pontos/colaborador/' + ${colaborador.id}}" class="back-button">Voltar para Ajuste de Pontos</a>
+	    </div>
+	</div>
+</body>
+</html>

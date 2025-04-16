@@ -3,7 +3,7 @@
     padding: 10px 20px;
     border-bottom: 1px solid #dee2e6;
     margin-bottom: 15px;
-    text-align: center; /* Centraliza o título */
+    text-align: center;
     width: 100%;
     box-sizing: border-box;
 }
@@ -13,18 +13,18 @@
     margin-top: 0;
     margin-bottom: 5px;
     font-size: 1.1em;
-    display: block; /* Ocupa a linha inteira para o text-align funcionar */
+    display: block;
 }
 
 .admin-menu {
     list-style: none;
     padding: 0;
-    margin: 10px auto 0 auto; /* Centraliza o bloco da lista com margens automáticas */
+    margin: 10px auto 0 auto;
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center; /* Centraliza os itens flex horizontalmente */
-    width: fit-content; /* Ajusta a largura ao conteúdo */
+    gap: 5px; /* Espaçamento entre os botões */
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap; /* Permite que os botões quebrem em telas menores */
 }
 
 .admin-menu li {
@@ -43,8 +43,26 @@
     box-sizing: border-box;
     display: inline-block;
     margin-bottom: 5px;
+    min-width: 120px; /* Largura mínima para os botões */
 }
 
 .admin-menu li a:hover {
     background-color: #0056b3;
+}
+
+/* Media queries para telas menores */
+@media (max-width: 768px) {
+    .admin-menu li a {
+        font-size: 0.9em;
+        padding: 6px 10px;
+        min-width: 100px;
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-menu li a {
+        font-size: 0.8em;
+        padding: 4px 8px;
+        min-width: 80px;
+    }
 }

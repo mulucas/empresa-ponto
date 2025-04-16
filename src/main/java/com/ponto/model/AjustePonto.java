@@ -1,10 +1,16 @@
 package com.ponto.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import java.util.Optional;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-//@Entity
+import java.time.LocalDateTime;
+
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AjustePonto {
 
     @Id
@@ -28,7 +34,7 @@ public class AjustePonto {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private Optional<Colaborador> colaboradorAdmin;
+    private Colaborador colaboradorAdmin; // Remova o Optional<>
 
     @Column(nullable = false)
     private LocalDateTime dataHoraAjuste;
@@ -39,84 +45,4 @@ public class AjustePonto {
     @Column(length = 255)
     private String observacaoNova;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getRegistroPontoId() {
-		return registroPontoId;
-	}
-
-	public void setRegistroPontoId(Long registroPontoId) {
-		this.registroPontoId = registroPontoId;
-	}
-
-	public LocalDateTime getDataHoraAnterior() {
-		return dataHoraAnterior;
-	}
-
-	public void setDataHoraAnterior(LocalDateTime dataHoraAnterior) {
-		this.dataHoraAnterior = dataHoraAnterior;
-	}
-
-	public LocalDateTime getDataHoraNova() {
-		return dataHoraNova;
-	}
-
-	public void setDataHoraNova(LocalDateTime dataHoraNova) {
-		this.dataHoraNova = dataHoraNova;
-	}
-
-	public String getTipoRegistroAnterior() {
-		return tipoRegistroAnterior;
-	}
-
-	public void setTipoRegistroAnterior(String tipoRegistroAnterior) {
-		this.tipoRegistroAnterior = tipoRegistroAnterior;
-	}
-
-	public String getTipoRegistroNovo() {
-		return tipoRegistroNovo;
-	}
-
-	public void setTipoRegistroNovo(String tipoRegistroNovo) {
-		this.tipoRegistroNovo = tipoRegistroNovo;
-	}
-
-	public Optional<Colaborador> getColaboradorAdmin() {
-		return colaboradorAdmin;
-	}
-
-	public void setColaboradorAdmin(Optional<Colaborador> colaboradorAdmin2) {
-		this.colaboradorAdmin = colaboradorAdmin2;
-	}
-
-	public LocalDateTime getDataHoraAjuste() {
-		return dataHoraAjuste;
-	}
-
-	public void setDataHoraAjuste(LocalDateTime dataHoraAjuste) {
-		this.dataHoraAjuste = dataHoraAjuste;
-	}
-
-	public String getObservacaoAnterior() {
-		return observacaoAnterior;
-	}
-
-	public void setObservacaoAnterior(String observacaoAnterior) {
-		this.observacaoAnterior = observacaoAnterior;
-	}
-
-	public String getObservacaoNova() {
-		return observacaoNova;
-	}
-
-	public void setObservacaoNova(String observacaoNova) {
-		this.observacaoNova = observacaoNova;
-	}
-    
 }
