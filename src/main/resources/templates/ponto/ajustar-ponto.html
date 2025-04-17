@@ -6,7 +6,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin/admin-menu.css}">
 </head>
 <body>
-    <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
+    <div th:if="${session.acessoAdmin}">
+	    <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
+	</div>
 
     <div class="container">
         <h1>Ajustar Ponto</h1>

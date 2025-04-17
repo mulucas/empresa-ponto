@@ -25,18 +25,25 @@ public class LoginController {
 	@PostMapping("/processar-cpf")
 	public String processarCpf(@RequestParam("cpf") String cpf, Model model, HttpSession session) {
 
-		String cpfSemPontuacao = cpf.replaceAll("[^\\d]", "");
+	    String cpfSemPontuacao = cpf.replaceAll("[^\\d]", "");
 
 	    return colaboradorRepository.findByCpf(cpfSemPontuacao).map(colaborador -> {
 	        session.setAttribute("cpf", cpfSemPontuacao);
+	        session.setAttribute("acessoAdmin", colaborador.getAcessoAdmin()); // <- Aqui
+	        session.setAttribute("colaboradorLogado", colaborador); // Se quiser usar mais info do colaborador
+System.out.println(cpfSemPontuacao+" "+colaborador.getAcessoAdmin()+" ");
 	        model.addAttribute("cpf", cpfSemPontuacao);
-	        model.addAttribute("acessoAdmin", colaborador.getAcessoAdmin());
 	        return "operacoes/tela-inicial";
 	    }).orElseGet(() -> {
 	        model.addAttribute("erro", "Colaborador não encontrado.");
-	        System.out.println(cpfSemPontuacao);
 	        return "operacoes/login";
 	    });
+	}
+
+	@GetMapping("/sair")
+	public String sair(HttpSession session) {
+		session.invalidate(); // Limpa a sessão inteira
+		return "operacoes/tela-sair";
 	}
 
 }

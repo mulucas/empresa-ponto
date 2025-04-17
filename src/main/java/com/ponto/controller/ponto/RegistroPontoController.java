@@ -43,22 +43,21 @@ public class RegistroPontoController {
     @PostMapping("/registrar-ponto")
     public String registrarPonto(@RequestParam("cpfColaborador") String cpfColaborador,
                                  @RequestParam("tipoRegistro") TipoRegistro tipoRegistro,
-                                 @RequestParam("dataHora") String dataHoraString,
                                  Model model) {
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-            LocalDateTime dataHora = LocalDateTime.parse(dataHoraString, formatter);
+            // Obtenha a data e hora atuais do servidor
+            LocalDateTime dataHoraAtual = LocalDateTime.now();
 
             RegistroPonto registroPonto = new RegistroPonto();
             registroPonto.setCpfColaborador(cpfColaborador);
             registroPonto.setTipoRegistro(tipoRegistro);
-            registroPonto.setDataHora(dataHora);
+            registroPonto.setDataHora(dataHoraAtual); // Use a hora atual do servidor
             registroPontoRepository.save(registroPonto);
             model.addAttribute("mensagem", "Ponto registrado com sucesso!");
         } catch (Exception e) {
             model.addAttribute("mensagem", "Erro ao registrar o ponto: " + e.getMessage());
         }
-        return "registrar-ponto";
+        return "ponto/registrar-ponto";
     }
 
     @GetMapping("/ponto/ajustar-ponto/{id}")

@@ -37,8 +37,4 @@ public class InicialController {
 		}).orElse("redirect:/");
 	}
 
-	@GetMapping("/sair")
-	public String sair() {
-		return "operacoes/tela-sair";
-	}
 }

@@ -34,7 +34,7 @@ public class AjustePonto {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private Colaborador colaboradorAdmin; // Remova o Optional<>
+    private Colaborador colaboradorAdmin;
 
     @Column(nullable = false)
     private LocalDateTime dataHoraAjuste;

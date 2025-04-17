@@ -6,9 +6,10 @@
      <link rel="stylesheet" type="text/css" th:href="@{/css/admin/admin-menu.css}">
 </head>
 <body>
-    <div th:if="${acessoAdmin}">
-        <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
-    </div>
+    <div th:if="${session.acessoAdmin}">
+	    <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
+	</div>
+
     <div class="container">
         <h1>Cadastro de Colaborador</h1>
         <form action="/colaboradores/salvar" method="post" th:object="${colaborador}">

@@ -2,15 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Editar Colaborador</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/cadastro-colaborador.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/admin-menu.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/colaborador/cadastro-colaborador.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/admin-menu.css}">
 </head>
 <body>
-    <div th:if="${acessoAdmin}">
-        <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
-    </div>
+	<div th:if="${session.acessoAdmin}">
+		<div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
+	</div>
 
-    <div class="container">
+	<div class="container">
         <h1>Editar Colaborador</h1>
         <form th:action="@{/colaboradores/atualizar/{id}(id=${colaborador.id})}" method="post" th:object="${colaborador}">
             <input type="hidden" th:field="*{id}">

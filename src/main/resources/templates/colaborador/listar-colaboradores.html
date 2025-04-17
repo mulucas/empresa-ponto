@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Lista de Colaboradores</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin/admin-menu.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/colaborador/listar-colaboradores.css}">
     <script>
         function confirmarExclusao(colaboradorId) {
@@ -13,9 +13,9 @@
     </script>
 </head>
 <body>
-    <div th:if="${acessoAdmin}">
-        <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
-    </div>
+    <div th:if="${session.acessoAdmin}">
+	    <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
+	</div>
 
     <div class="container">
         <h1>Lista de Colaboradores</h1>

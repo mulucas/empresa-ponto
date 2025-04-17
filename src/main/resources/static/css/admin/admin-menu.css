@@ -50,19 +50,3 @@
     background-color: #0056b3;
 }
 
-/* Media queries para telas menores */
-@media (max-width: 768px) {
-    .admin-menu li a {
-        font-size: 0.9em;
-        padding: 6px 10px;
-        min-width: 100px;
-    }
-}
-
-@media (max-width: 600px) {
-    .admin-menu li a {
-        font-size: 0.8em;
-        padding: 4px 8px;
-        min-width: 80px;
-    }
-}

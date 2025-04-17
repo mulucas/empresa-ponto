@@ -2,18 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Menu de Ponto</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/operacoes/tela-inicial.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin/admin-menu.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/operacoes/tela-inicial.css}">
 </head>
 <body>
-	<div th:if="${acessoAdmin}">
-        <div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
-    </div>
+	<div th:if="${session.acessoAdmin}">
+    	<div th:insert="~{admin/_menu-administrativo :: menuAdmin}"></div>
+	</div>
 
     <div class="container">
     <div id="confirmacao" th:if="${mensagem != null}" th:text="${mensagem}" th:style="'color: ' + (${mensagem.contains('sucesso') ? 'green' : 'red'})"></div>
         <h1>Menu de Ponto</h1>
-        <p th:text="${'CPF: ' + cpf}"></p>
+        <p>Bem-vindo, <span th:text="${session.colaboradorLogado.nome}"></span>!</p>
 
         <div class="options">
             <button onclick="window.location.href='/registrar-ponto'">Registrar Ponto</button>
